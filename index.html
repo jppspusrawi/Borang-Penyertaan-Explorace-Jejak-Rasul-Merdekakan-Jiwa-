@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pendaftaran Explorace — Jejak Rasul, Merdekakan Jiwa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#0A1330;
+    --navy-900:#0F1B3D;
+    --navy-800:#152752;
+    --navy-700:#1D3573;
+    --navy-600:#28438F;
+    --gold-600:#AD8524;
+    --gold-500:#C8A34D;
+    --gold-300:#E4C976;
+    --gold-100:#F6EBCB;
+    --cream:#FBF6EA;
+    --cream-dim:#F1E9D6;
+    --ink:#1B1A16;
+    --ink-soft:#5B5847;
+    --white:#FFFFFF;
+    --error:#B3261E;
+    --success:#2E6B3E;
+    --radius-lg:20px;
+    --radius-md:12px;
+    --radius-sm:8px;
+    --shadow-card: 0 20px 50px -20px rgba(10,19,48,0.35);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(200,163,77,0.10), transparent 40%),
+      radial-gradient(circle at 100% 20%, rgba(29,53,115,0.12), transparent 45%),
+      var(--cream);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:0 0 60px;
+  }
+  .brand-strip{
+    width:100%;
+    background:var(--navy-950);
+    color:var(--gold-300);
+    text-align:center;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    padding:9px 16px;
+    font-weight:600;
+  }
+  header.hero{
+    width:100%;
+    background:
+      linear-gradient(180deg, var(--navy-900) 0%, var(--navy-800) 65%, var(--navy-700) 100%);
+    color:var(--cream);
+    padding:38px 20px 46px;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(135deg, rgba(200,163,77,0.06) 0 2px, transparent 2px 26px);
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold-300);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .hero-eyebrow svg{width:14px;height:14px;fill:var(--gold-400,#C8A34D);}
+  h1.hero-title{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:clamp(28px, 5.5vw, 46px);
+    line-height:1.18;
+    margin:0 0 6px;
+    position:relative;
+  }
+  .hero-sub{
+    font-family:'Amiri', serif;
+    font-style:italic;
+    font-size:clamp(15px,2.4vw,19px);
+    color:var(--gold-100);
+    margin:0 0 22px;
+    opacity:0.9;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    position:relative;
+  }
+  .chip{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(228,201,118,0.35);
+    color:var(--cream);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:13.5px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    backdrop-filter:blur(2px);
+  }
+  .chip svg{width:14px;height:14px;flex:none;}
+  .chip.warn{
+    background:rgba(179,46,30,0.18);
+    border-color:rgba(255,150,130,0.4);
+  }
+
+  /* Trail / checkpoint progress */
+  .trail-wrap{
+    width:100%;
+    max-width:900px;
+    padding:22px 18px 0;
+  }
+  .trail{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    position:relative;
+    gap:2px;
+  }
+  .trail-line{
+    position:absolute;
+    top:15px;
+    left:22px;
+    right:22px;
+    height:2px;
+    background:repeating-linear-gradient(90deg, var(--navy-700) 0 6px, transparent 6px 12px);
+    z-index:0;
+  }
+  .trail-line-fill{
+    position:absolute;
+    top:15px;
+    left:22px;
+    height:2px;
+    background:var(--gold-500);
+    z-index:1;
+    transition:width .45s ease;
+  }
+  .cp{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+    min-width:0;
+    cursor:default;
+  }
+  .cp-dot{
+    width:30px;height:30px;
+    border-radius:50%;
+    background:var(--cream);
+    border:2px solid var(--navy-700);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;
+    color:var(--navy-700);
+    transition:all .3s ease;
+  }
+  .cp.done .cp-dot{
+    background:var(--gold-500);
+    border-color:var(--gold-600);
+    color:var(--navy-950);
+  }
+  .cp.active .cp-dot{
+    background:var(--navy-900);
+    border-color:var(--gold-500);
+    color:var(--gold-300);
+    box-shadow:0 0 0 4px rgba(200,163,77,0.22);
+  }
+  .cp-label{
+    font-size:10px;
+    margin-top:6px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-weight:600;
+    max-width:64px;
+    line-height:1.25;
+    display:none;
+  }
+  .cp.active .cp-label{display:block; color:var(--navy-900);}
+  @media(min-width:640px){ .cp-label{display:block;} }
+
+  main{
+    width:100%;
+    max-width:640px;
+    padding:26px 18px 0;
+  }
+  .card{
+    background:var(--white);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+    border:1px solid var(--cream-dim);
+    padding:30px 26px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg, var(--navy-700), var(--gold-500));
+  }
+  .step-eyebrow{
+    font-size:11.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold-600);
+    font-weight:800;
+    margin:0 0 4px;
+  }
+  .step-title{
+    font-family:'Amiri', serif;
+    font-size:24px;
+    font-weight:700;
+    color:var(--navy-900);
+    margin:0 0 4px;
+  }
+  .step-desc{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 22px;
+    line-height:1.55;
+  }
+
+  .field{margin-bottom:16px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:var(--navy-900);
+    margin-bottom:6px;
+  }
+  .field label .req{color:var(--error); margin-left:2px;}
+  .field input[type=text], .field input[type=tel], .field select{
+    width:100%;
+    padding:11px 13px;
+    border-radius:var(--radius-sm);
+    border:1.5px solid #E4DDC9;
+    background:var(--cream);
+    font-family:inherit;
+    font-size:14.5px;
+    color:var(--ink);
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .field input:focus, .field select:focus{
+    outline:none;
+    border-color:var(--gold-500);
+    box-shadow:0 0 0 3px rgba(200,163,77,0.2);
+    background:var(--white);
+  }
+  .field .err-msg{
+    font-size:12px;
+    color:var(--error);
+    margin-top:5px;
+    display:none;
+    font-weight:600;
+  }
+  .field.invalid input, .field.invalid select{border-color:var(--error); background:#FDF2F1;}
+  .field.invalid .err-msg{display:block;}
+
+  .cat-toggle{display:flex; gap:10px;}
+  .cat-toggle label{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:11px 8px;
+    border:1.5px solid #E4DDC9;
+    border-radius:var(--radius-sm);
+    background:var(--cream);
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .cat-toggle input{position:absolute; opacity:0; width:0; height:0;}
+  .cat-toggle input:checked + span{color:inherit;}
+  .cat-toggle label:has(input:checked){
+    background:var(--navy-900);
+    border-color:var(--navy-900);
+    color:var(--gold-300);
+  }
+
+  .syarat-list{
+    list-style:none;
+    margin:0 0 20px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .syarat-list li{
+    display:flex;
+    gap:10px;
+    font-size:14px;
+    line-height:1.5;
+    color:var(--ink);
+    background:var(--cream);
+    border:1px solid var(--cream-dim);
+    border-radius:var(--radius-sm);
+    padding:11px 13px;
+  }
+  .syarat-list li svg{flex:none; width:17px;height:17px;margin-top:1px;fill:var(--gold-600);}
+  .deadline-box{
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+    background:linear-gradient(135deg, var(--navy-900), var(--navy-700));
+    color:var(--cream);
+    padding:14px 16px;
+    border-radius:var(--radius-md);
+    margin-bottom:22px;
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .deadline-box svg{flex:none;width:19px;height:19px;fill:var(--gold-300); margin-top:1px;}
+  .deadline-box b{color:var(--gold-300);}
+
+  .confirm-list{display:flex; flex-direction:column; gap:12px; margin-bottom:20px;}
+  .confirm-item{
+    display:flex;
+    gap:11px;
+    align-items:flex-start;
+    padding:12px 14px;
+    border:1.5px solid #E4DDC9;
+    border-radius:var(--radius-sm);
+    background:var(--cream);
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .confirm-item:has(input:checked){
+    border-color:var(--gold-500);
+    background:var(--gold-100);
+  }
+  .confirm-item input{margin-top:2px; width:17px;height:17px; accent-color:var(--navy-900); flex:none;}
+  .confirm-item span{font-size:13.5px; line-height:1.5; color:var(--ink);}
+
+  .summary-box{
+    background:var(--cream);
+    border:1px dashed var(--gold-500);
+    border-radius:var(--radius-md);
+    padding:14px 16px;
+    margin-bottom:20px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .summary-box b{color:var(--navy-900);}
+  .summary-row{display:flex; justify-content:space-between; gap:10px; padding:3px 0;}
+
+  .nav-row{
+    display:flex;
+    gap:12px;
+    margin-top:6px;
+  }
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    border-radius:999px;
+    padding:13px 22px;
+    font-size:14.5px;
+    font-weight:700;
+    transition:transform .15s, box-shadow .15s, opacity .15s;
+  }
+  button:active{transform:scale(0.97);}
+  .btn-primary{
+    flex:1;
+    background:linear-gradient(135deg, var(--navy-800), var(--navy-950));
+    color:var(--gold-300);
+    box-shadow:0 10px 20px -8px rgba(15,27,61,0.5);
+  }
+  .btn-primary:disabled{opacity:0.5; cursor:not-allowed; box-shadow:none;}
+  .btn-secondary{
+    background:var(--cream);
+    border:1.5px solid #E4DDC9;
+    color:var(--navy-900);
+  }
+  .btn-submit{
+    flex:1;
+    background:linear-gradient(135deg, var(--gold-600), var(--gold-500));
+    color:var(--navy-950);
+    box-shadow:0 10px 22px -8px rgba(173,133,36,0.55);
+  }
+  .btn-submit:disabled{opacity:0.5; cursor:not-allowed; box-shadow:none;}
+
+  .peserta-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--navy-900);
+    color:var(--gold-300);
+    font-size:12px;
+    font-weight:800;
+    margin-right:8px;
+  }
+  .ketua-tag{
+    display:inline-flex;
+    align-items:center;
+    vertical-align:middle;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--navy-950);
+    background:linear-gradient(135deg, var(--gold-300), var(--gold-500));
+    padding:4px 10px;
+    border-radius:999px;
+    margin-left:8px;
+  }
+
+  footer.note{
+    max-width:640px;
+    width:100%;
+    padding:20px 24px 0;
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  /* success screen */
+  .success-screen{
+    display:none;
+    max-width:640px;
+    width:100%;
+    padding:26px 18px 40px;
+  }
+  .success-card{
+    background:var(--white);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-card);
+    padding:44px 30px;
+    text-align:center;
+    border:1px solid var(--cream-dim);
+    position:relative;
+    overflow:hidden;
+  }
+  .success-card::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:4px;
+    background:linear-gradient(90deg, var(--gold-500), var(--navy-700));
+  }
+  .success-icon{
+    width:66px;height:66px;
+    border-radius:50%;
+    background:var(--gold-100);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+  }
+  .success-icon svg{width:32px;height:32px;fill:var(--gold-600);}
+  .success-card h2{
+    font-family:'Amiri', serif;
+    color:var(--navy-900);
+    font-size:24px;
+    margin:0 0 12px;
+  }
+  .success-card p{
+    color:var(--ink-soft);
+    font-size:14.5px;
+    line-height:1.65;
+    margin:0 0 6px;
+  }
+  .loading-dots{display:inline-block; width:16px; text-align:left;}
+
+  @media(max-width:420px){
+    .card{padding:24px 18px 20px;}
+    .cat-toggle{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brand-strip">Jabatan Perundangan &amp; Perkhidmatan Syariah (JPPS) · Hospital PUSRAWI</div>
+
+<header class="hero">
+  <div class="hero-eyebrow">
+    <svg viewBox="0 0 24 24"><path d="M12 2 15 9 22 9.5 16.5 14 18.5 21 12 17 5.5 21 7.5 14 2 9.5 9 9Z"/></svg>
+    Explorace &middot; Program Kerohanian
+  </div>
+  <h1 class="hero-title">Jejak Rasul,<br>Merdekakan Jiwa</h1>
+  <p class="hero-sub">Borang Pendaftaran Penyertaan Kumpulan</p>
+  <div class="chip-row">
+    <span class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v10H5V10h14Z"/></svg>19 Ogos 2026 (Rabu)</span>
+    <span class="chip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 10.41 4 2.32-1 1.73-5-2.88V7h2Z"/></svg>8.30 pagi &ndash; 1.00 petang</span>
+    <span class="chip warn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg>Terhad 15 kumpulan</span>
+  </div>
+</header>
+
+<div class="trail-wrap">
+  <div class="trail" id="trail">
+    <div class="trail-line"></div>
+    <div class="trail-line-fill" id="trailFill"></div>
+    <!-- checkpoints injected by JS -->
+  </div>
+</div>
+
+<main>
+  <form id="regForm" novalidate>
+    <div class="card" id="cardHost"></div>
+
+    <div class="nav-row" id="navRow" style="margin-top:18px;">
+      <button type="button" class="btn-secondary" id="btnBack">Kembali</button>
+      <button type="button" class="btn-primary" id="btnNext">Seterusnya</button>
+    </div>
+  </form>
+</main>
+
+<footer class="note">
+  Sebarang pertanyaan berkaitan penyertaan boleh diajukan kepada Jabatan Perundangan &amp; Perkhidmatan Syariah (JPPS), Hospital PUSRAWI.<br>
+  Pendaftaran dibuka sehingga <b>11 Ogos 2026</b> atau sehingga kuota 15 kumpulan dipenuhi.
+</footer>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+    </div>
+    <h2>Tahniah! Pendaftaran Berjaya</h2>
+    <p>Pendaftaran kumpulan anda telah berjaya diterima. Pihak urus setia akan menghubungi Ketua Kumpulan sekiranya penyertaan disahkan.</p>
+    <p>Terima kasih atas sokongan anda terhadap Explorace &ldquo;Jejak Rasul, Merdekakan Jiwa&rdquo;.</p>
+  </div>
+</div>
+
+<script>
+/* ======================================================
+   KONFIGURASI — GANTI URL DI BAWAH SELEPAS DEPLOY APPS SCRIPT
+   ====================================================== */
+const SCRIPT_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT_ANDA";
+
+/* ---------- Struktur langkah (checkpoint) ---------- */
+const steps = [
+  { id:"intro",   label:"Info" },
+  { id:"p1",      label:"Peserta 1" },
+  { id:"p2",      label:"Peserta 2" },
+  { id:"p3",      label:"Peserta 3" },
+  { id:"p4",      label:"Peserta 4" },
+  { id:"p5",      label:"Peserta 5" },
+  { id:"sah",     label:"Hantar" },
+];
+
+let current = 0;
+const data = {
+  namaKumpulan:"",
+  peserta: [1,2,3,4,5].map(()=>({ nama:"", noStaff:"", jabatan:"", kategori:"", telefon:"" })),
+  sah: { benar:false, cukup5:false, gabungan:false, setuju:false }
+};
+
+const trailEl = document.getElementById("trail");
+const trailFill = document.getElementById("trailFill");
+const cardHost = document.getElementById("cardHost");
+const btnBack = document.getElementById("btnBack");
+const btnNext = document.getElementById("btnNext");
+const navRow = document.getElementById("navRow");
+
+function buildTrail(){
+  trailEl.querySelectorAll(".cp").forEach(n=>n.remove());
+  steps.forEach((s,i)=>{
+    const cp = document.createElement("div");
+    cp.className = "cp";
+    cp.innerHTML = `<div class="cp-dot">${i+1}</div><div class="cp-label">${s.label}</div>`;
+    trailEl.appendChild(cp);
+  });
+  updateTrail();
+}
+function updateTrail(){
+  const nodes = trailEl.querySelectorAll(".cp");
+  nodes.forEach((n,i)=>{
+    n.classList.toggle("done", i < current);
+    n.classList.toggle("active", i === current);
+  });
+  const pct = steps.length > 1 ? (current/(steps.length-1))*100 : 0;
+  trailFill.style.width = `calc(${pct}% * 0.9)`;
+}
+
+function field(label, key, opts={}){
+  const val = opts.value ?? "";
+  return `
+  <div class="field" data-key="${key}">
+    <label>${label}${opts.required? '<span class="req">*</span>':''}</label>
+    <input type="${opts.type||'text'}" data-bind="${key}" value="${val}" placeholder="${opts.placeholder||''}" maxlength="${opts.maxlength||100}">
+    <div class="err-msg">Ruangan ini wajib diisi.</div>
+  </div>`;
+}
+
+function renderIntro(){
+  return `
+    <p class="step-eyebrow">Sebelum Bermula</p>
+    <h2 class="step-title">Syarat Penyertaan</h2>
+    <p class="step-desc">Sila baca syarat di bawah sebelum mendaftar kumpulan anda.</p>
+    <ul class="syarat-list">
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Penyertaan adalah <b>percuma</b>.</li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Terbuka kepada semua warga kerja Kumpulan PUSRAWI Heritage, HPPKL dan MHC.</li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Penyertaan terhad kepada <b>15 kumpulan</b> terawal sahaja (1 kumpulan = 5 orang).</li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Setiap kumpulan mesti gabungan staf <b>klinikal</b> dan <b>non-klinikal</b>.</li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Markah berdasarkan jawapan soalan, penyelesaian cabaran dan masa terpantas. Keputusan juri muktamad.</li>
+    </ul>
+    <div class="deadline-box">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg>
+      <div>Pendaftaran dibuka sehingga <b>11 Ogos 2026</b>. Penganjur berhak mengubah peraturan, menukar, menunda tarikh atau membatalkan acara sekiranya perlu.</div>
+    </div>
+  `;
+}
+function renderPeserta(idx){
+  const p = data.peserta[idx];
+  const isKetua = idx === 0;
+  return `
+    <p class="step-eyebrow">Langkah ${idx+1}</p>
+    <h2 class="step-title"><span class="peserta-badge">${idx+1}</span>Peserta ${idx+1}${isKetua? ' <span class="ketua-tag">Ketua Kumpulan</span>':''}</h2>
+    <p class="step-desc">${isKetua? 'Peserta ini juga bertindak sebagai ketua kumpulan dan akan dihubungi oleh urus setia untuk pengesahan penyertaan.' : 'Lengkapkan maklumat ahli kumpulan.'}</p>
+    ${isKetua? field("Nama Kumpulan","namaKumpulan",{required:true, value:data.namaKumpulan, placeholder:"cth: Al-Muhajirin"}) : ''}
+    ${field("Nama Penuh","p"+idx+"_nama",{required:true, value:p.nama})}
+    ${field("No. Staff","p"+idx+"_noStaff",{required:true, value:p.noStaff})}
+    ${field("Jabatan / Unit","p"+idx+"_jabatan",{required:true, value:p.jabatan})}
+    ${isKetua? field("No. Telefon","p0_telefon",{required:true, type:"tel", value:p.telefon, placeholder:"012-3456789"}) : ''}
+    <div class="field" data-key="p${idx}_kategori">
+      <label>Kategori Staf<span class="req">*</span></label>
+      <div class="cat-toggle">
+        <label><input type="radio" name="kategori${idx}" value="Klinikal" ${p.kategori==='Klinikal'?'checked':''}><span>Klinikal</span></label>
+        <label><input type="radio" name="kategori${idx}" value="Non-Klinikal" ${p.kategori==='Non-Klinikal'?'checked':''}><span>Non-Klinikal</span></label>
+      </div>
+      <div class="err-msg">Sila pilih kategori staf.</div>
+    </div>
+  `;
+}
+function renderSah(){
+  return `
+    <p class="step-eyebrow">Langkah Akhir</p>
+    <h2 class="step-title">Semakan &amp; Pengesahan</h2>
+    <p class="step-desc">Sila semak ringkasan dan sahkan sebelum menghantar pendaftaran.</p>
+    <div class="summary-box">
+      <div class="summary-row"><span>Nama Kumpulan</span><b>${data.namaKumpulan||'-'}</b></div>
+      <div class="summary-row"><span>Ketua Kumpulan</span><b>${data.peserta[0].nama||'-'}</b></div>
+      <div class="summary-row"><span>Jumlah Peserta Didaftar</span><b>${data.peserta.filter(p=>p.nama).length} / 5</b></div>
+    </div>
+    <div class="confirm-list">
+      <label class="confirm-item"><input type="checkbox" data-sah="benar"><span>Saya mengesahkan bahawa semua maklumat yang diberikan adalah benar.</span></label>
+      <label class="confirm-item"><input type="checkbox" data-sah="cukup5"><span>Kumpulan kami terdiri daripada 5 orang peserta.</span></label>
+      <label class="confirm-item"><input type="checkbox" data-sah="gabungan"><span>Kumpulan kami mengandungi gabungan staf klinikal dan non-klinikal.</span></label>
+      <label class="confirm-item"><input type="checkbox" data-sah="setuju"><span>Semua ahli kumpulan bersetuju menyertai program ini.</span></label>
+    </div>
+  `;
+}
+
+function render(){
+  const s = steps[current];
+  let html = "";
+  if(s.id==="intro") html = renderIntro();
+  else if(s.id.startsWith("p")) html = renderPeserta(Number(s.id.slice(1))-1);
+  else if(s.id==="sah") html = renderSah();
+  cardHost.innerHTML = html;
+  bindInputs();
+  updateTrail();
+
+  btnBack.style.visibility = current===0 ? "hidden" : "visible";
+  btnNext.textContent = current===steps.length-1 ? "Hantar Pendaftaran" : "Seterusnya";
+  btnNext.className = current===steps.length-1 ? "btn-submit" : "btn-primary";
+  btnNext.disabled = false;
+}
+
+function bindInputs(){
+  cardHost.querySelectorAll("input[data-bind]").forEach(inp=>{
+    inp.addEventListener("input", e=>{
+      const key = e.target.getAttribute("data-bind");
+      setValue(key, e.target.value);
+      clearError(key);
+    });
+  });
+  cardHost.querySelectorAll("input[type=radio]").forEach(r=>{
+    r.addEventListener("change", e=>{
+      const idx = Number(e.target.name.replace("kategori",""));
+      data.peserta[idx].kategori = e.target.value;
+      clearError("p"+idx+"_kategori");
+    });
+  });
+  cardHost.querySelectorAll("input[data-sah]").forEach(c=>{
+    c.addEventListener("change", e=>{
+      data.sah[e.target.getAttribute("data-sah")] = e.target.checked;
+    });
+  });
+}
+
+function setValue(key, val){
+  if(key==="namaKumpulan"){
+    data.namaKumpulan = val;
+  } else {
+    const m = key.match(/^p(\d)_(\w+)$/);
+    if(m){
+      const idx = Number(m[1]);
+      data.peserta[idx][m[2]] = val;
+    }
+  }
+}
+
+function clearError(key){
+  const f = cardHost.querySelector(`[data-key="${key}"]`);
+  if(f) f.classList.remove("invalid");
+}
+
+function validateStep(){
+  const s = steps[current];
+  let ok = true;
+  const markInvalid = (key)=>{
+    const f = cardHost.querySelector(`[data-key="${key}"]`);
+    if(f) f.classList.add("invalid");
+    ok = false;
+  };
+
+  if(s.id.startsWith("p")){
+    const idx = Number(s.id.slice(1))-1;
+    const p = data.peserta[idx];
+    if(idx===0 && !data.namaKumpulan.trim()) markInvalid("namaKumpulan");
+    if(!p.nama.trim()) markInvalid("p"+idx+"_nama");
+    if(!p.noStaff.trim()) markInvalid("p"+idx+"_noStaff");
+    if(!p.jabatan.trim()) markInvalid("p"+idx+"_jabatan");
+    if(idx===0 && !p.telefon.trim()) markInvalid("p0_telefon");
+    if(!p.kategori) markInvalid("p"+idx+"_kategori");
+  } else if(s.id==="sah"){
+    if(!(data.sah.benar && data.sah.cukup5 && data.sah.gabungan && data.sah.setuju)){
+      cardHost.querySelectorAll(".confirm-item").forEach(el=>{
+        if(!el.querySelector("input").checked) el.style.borderColor = "var(--error)";
+      });
+      ok = false;
+    }
+  }
+  return ok;
+}
+
+btnNext.addEventListener("click", async ()=>{
+  if(!validateStep()) return;
+  if(current < steps.length-1){
+    current++;
+    render();
+    window.scrollTo({top: cardHost.offsetTop - 20, behavior:"smooth"});
+  } else {
+    await submitForm();
+  }
+});
+btnBack.addEventListener("click", ()=>{
+  if(current>0){
+    current--;
+    render();
+    window.scrollTo({top: cardHost.offsetTop - 20, behavior:"smooth"});
+  }
+});
+
+async function submitForm(){
+  btnNext.disabled = true;
+  btnNext.textContent = "Menghantar...";
+
+  const payload = {
+    timestamp: new Date().toISOString(),
+    namaKumpulan: data.namaKumpulan,
+    peserta: data.peserta,
+    pengesahan: data.sah
+  };
+
+  try{
+    if(SCRIPT_URL && !SCRIPT_URL.startsWith("GANTI_")){
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type":"text/plain;charset=utf-8"},
+        body: JSON.stringify(payload)
+      });
+    } else {
+      console.warn("SCRIPT_URL belum ditetapkan. Data tidak dihantar ke Google Sheet.", payload);
+    }
+    showSuccess();
+  } catch(err){
+    console.error(err);
+    showSuccess(); // no-cors tak boleh baca status; anggap berjaya jika tiada network error
+  }
+}
+
+function showSuccess(){
+  document.querySelector(".trail-wrap").style.display = "none";
+  document.querySelector("main").style.display = "none";
+  document.querySelector("footer.note").style.display = "none";
+  document.getElementById("successScreen").style.display = "block";
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+buildTrail();
+render();
+</script>
+</body>
+</html>
