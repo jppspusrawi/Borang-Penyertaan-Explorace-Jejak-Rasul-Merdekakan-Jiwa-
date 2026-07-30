@@ -45,16 +45,19 @@
     align-items:center;
     padding:0 0 60px;
   }
-  .brand-strip{
+  .logo-bar{
     width:100%;
-    background:var(--navy-950);
-    color:var(--gold-300);
-    text-align:center;
-    font-size:12.5px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    padding:9px 16px;
-    font-weight:600;
+    background:var(--white);
+    padding:14px 20px;
+    display:flex;
+    justify-content:center;
+    border-bottom:3px solid var(--gold-500);
+  }
+  .logo-bar img{
+    width:100%;
+    max-width:820px;
+    height:auto;
+    display:block;
   }
   header.hero{
     width:100%;
@@ -325,6 +328,7 @@
     border-radius:var(--radius-sm);
     padding:11px 13px;
   }
+  .syarat-list li span{text-align:justify;}
   .syarat-list li svg{flex:none; width:17px;height:17px;margin-top:1px;fill:var(--gold-600);}
   .deadline-box{
     display:flex;
@@ -338,6 +342,7 @@
     font-size:13.5px;
     line-height:1.5;
   }
+  .deadline-box span{text-align:justify;}
   .deadline-box svg{flex:none;width:19px;height:19px;fill:var(--gold-300); margin-top:1px;}
   .deadline-box b{color:var(--gold-300);}
 
@@ -498,7 +503,9 @@
 </head>
 <body>
 
-<div class="brand-strip">Jabatan Perundangan &amp; Perkhidmatan Syariah (JPPS) · Hospital PUSRAWI</div>
+<div class="logo-bar">
+  <img src="logo-pusrawi.png" alt="Pusrawi Heritage Sdn Bhd · Hospital Pakar Pusrawi Kuala Lumpur · Aiwp Healthcare">
+</div>
 
 <header class="hero">
   <div class="hero-eyebrow">
@@ -553,7 +560,7 @@
 /* ======================================================
    KONFIGURASI — GANTI URL DI BAWAH SELEPAS DEPLOY APPS SCRIPT
    ====================================================== */
-const SCRIPT_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT_ANDA";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx74YQPEgDfHJce4wrmDF-fKnPVStHv2psnpzq5t8vFIClnLnzcKJ__39TqFNQ_YTA_-w/exec";
 
 /* ---------- Struktur langkah (checkpoint) ---------- */
 const steps = [
@@ -616,15 +623,15 @@ function renderIntro(){
     <h2 class="step-title">Syarat Penyertaan</h2>
     <p class="step-desc">Sila baca syarat di bawah sebelum mendaftar kumpulan anda.</p>
     <ul class="syarat-list">
-      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Penyertaan adalah <b>percuma</b>.</li>
-      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Terbuka kepada semua warga kerja Kumpulan PUSRAWI Heritage, HPPKL dan MHC.</li>
-      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Penyertaan terhad kepada <b>15 kumpulan</b> terawal sahaja (1 kumpulan = 5 orang).</li>
-      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Setiap kumpulan mesti gabungan staf <b>klinikal</b> dan <b>non-klinikal</b>.</li>
-      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Markah berdasarkan jawapan soalan, penyelesaian cabaran dan masa terpantas. Keputusan juri muktamad.</li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><span>Penyertaan adalah <b>percuma</b>.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><span>Terbuka kepada semua warga kerja <b>Kumpulan PUSRAWI Heritage, HPPKL dan MHC</b>.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><span>Penyertaan terhad kepada <b>15 kumpulan</b> terawal sahaja (1 kumpulan = 5 orang).</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><span>Setiap kumpulan mesti gabungan staf <b>klinikal</b> dan <b>non-klinikal</b>.</span></li>
+      <li><svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg><span>Markah berdasarkan <b>jawapan soalan, penyelesaian cabaran dan masa terpantas</b>. Keputusan juri muktamad.</span></li>
     </ul>
     <div class="deadline-box">
       <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg>
-      <div>Pendaftaran dibuka sehingga <b>11 Ogos 2026</b>. Penganjur berhak mengubah peraturan, menukar, menunda tarikh atau membatalkan acara sekiranya perlu.</div>
+      <span>Pendaftaran dibuka sehingga <b>11 Ogos 2026</b>. Penganjur berhak mengubah peraturan, menukar, menunda tarikh atau membatalkan acara sekiranya perlu.</span>
     </div>
   `;
 }
